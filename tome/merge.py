@@ -33,6 +33,7 @@ def bipartite_soft_matching(
 
     When enabled, the class token and distillation tokens won't get merged.
     """
+    class_token=False
     protected = 0
     if class_token:
         protected += 1
@@ -74,8 +75,7 @@ def bipartite_soft_matching(
         n, t1, c = src.shape
         unm = src.gather(dim=-2, index=unm_idx.expand(n, t1 - r, c))
         src = src.gather(dim=-2, index=src_idx.expand(n, r, c))
-        #dst = dst.scatter_reduce(-2, dst_idx.expand(n, r, c), src, reduce=mode)
-        dst = dst.scatter_(-2, dst_idx.expand(n, r, c), src)
+        dst = torch.scatter(dst, dim=-2, index=dst_idx.expand(n, r, c), src=src)
         if mode == "mean":
             counts = torch.stack([
                 torch.bincount(dst_idx[i, :, 0], minlength=dst.size(-2))
@@ -142,7 +142,8 @@ def kth_bipartite_soft_matching(
         src, dst = split(x)
         n, _, c = src.shape
         #dst = dst.scatter_reduce(-2, dst_idx.expand(n, r, c), src, reduce=mode)
-        dst = dst.scatter_(-2, dst_idx.expand(n, r, c), src)
+        #dst = dst.scatter_(-2, dst_idx.expand(n, r, c), src)
+        dst = torch.scatter(dst, dim=-2, index=dst_idx.expand(n, r, c), src=src) 
         if mode == "mean":
             counts = torch.stack([
                 torch.bincount(dst_idx[i, :, 0], minlength=dst.size(-2))

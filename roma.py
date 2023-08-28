@@ -14,7 +14,7 @@ import torch, tome
 
 
 # Load a pretrained model, can be any vit / deit model.
-model = timm.create_model("vit_small_patch16_224", pretrained=False)
+model = timm.create_model("vit_base_patch16_224", pretrained=False)
 # Patch the model with ToMe.
 tome.patch.timm(model)
 # Set the number of tokens reduced per layer. See paper for details.
