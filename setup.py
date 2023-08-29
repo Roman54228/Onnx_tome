@@ -16,7 +16,10 @@ setup(
     install_requires=[
         "torchvision",
         "numpy",
-        "timm==0.4.12",
+        "timm",
+        "onnxruntime",
+        "onnx",
+        "torch==2.0.1",
         "pillow",
         "tqdm",
         "scipy",
