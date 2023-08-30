@@ -19,7 +19,7 @@ setup(
         "timm",
         "onnxruntime",
         "onnx",
-        "torch==2.0.1",
+        "torch==1.13.1",
         "pillow",
         "tqdm",
         "scipy",
